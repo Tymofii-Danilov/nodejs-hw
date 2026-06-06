@@ -89,7 +89,7 @@ export const logoutUser = async (req, res) => {
   }
 
   const session = await Session.findOne({
-    _id: sessionId,
+    userId: sessionId,
   });
 
   if (!session) {

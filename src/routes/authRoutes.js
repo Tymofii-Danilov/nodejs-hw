@@ -3,18 +3,18 @@ import { Router } from 'express';
 import {
   loginUserSchema,
   registerUserSchema,
-} from '../validations/authValidation';
+} from '../validations/authValidation.js';
 import {
   loginUser,
   logoutUser,
   refreshUserSession,
   registerUser,
-} from '../controllers/authController';
-import { authenticate } from '../middleware/authenticate';
+} from '../controllers/authController.js';
+import { authenticate } from '../middleware/authenticate.js';
 
 const router = Router();
 
-router.use('/auth', authenticate);
+router.use('/notes', authenticate);
 
 router.post('/auth/register', celebrate(registerUserSchema), registerUser);
 
