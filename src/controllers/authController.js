@@ -29,7 +29,7 @@ export const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
   const existingUser = await User.findOne({ email });
-  if (existingUser) {
+  if (!existingUser) {
     throw createHttpError(401, 'Invalid credentials');
   }
 
@@ -58,6 +58,8 @@ export const refreshUserSession = async (req, res) => {
   });
 
   if (!session) {
+    console.log(session);
+
     throw createHttpError(401, 'Session not found');
   }
 
@@ -84,22 +86,11 @@ export const refreshUserSession = async (req, res) => {
 export const logoutUser = async (req, res) => {
   const { sessionId } = req.cookies;
 
-  if (!sessionId) {
-    throw createHttpError(401, 'Missing session credentials');
+  if (sessionId) {
+    await Session.deleteOne({ _id: sessionId });
   }
-
-  const session = await Session.findOne({
-    userId: sessionId,
-  });
-
-  if (!session) {
-    throw createHttpError(401, 'Session not found');
-  }
-
-  await session.deleteOne();
   res.clearCookie('sessionId');
   res.clearCookie('accessToken');
   res.clearCookie('refreshToken');
-
-  res.status(204);
+  res.status(204).send();
 };

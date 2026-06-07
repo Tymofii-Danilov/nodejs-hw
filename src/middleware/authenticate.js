@@ -15,6 +15,8 @@ export const authenticate = async (req, res, next) => {
   });
 
   if (!session) {
+    console.log(sessionId, accessToken);
+
     throw createHttpError(401, 'Session not found');
   }
 
