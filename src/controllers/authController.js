@@ -34,7 +34,7 @@ export const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
   const existingUser = await User.findOne({ email });
-  if (existingUser) {
+  if (!existingUser) {
     throw createHttpError(401, 'Invalid credentials');
   }
 
@@ -106,7 +106,7 @@ export const logoutUser = async (req, res) => {
   res.clearCookie('accessToken');
   res.clearCookie('refreshToken');
 
-  res.status(204);
+  res.status(204).send();
 };
 
 export const requestResetEmail = async (req, res) => {
