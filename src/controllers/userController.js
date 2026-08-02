@@ -2,6 +2,19 @@ import createHttpError from 'http-errors';
 import { User } from '../models/user.js';
 import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
 
+export const getCurrentUser = async (req, res) => {
+  res.status(200).json(req.user);
+};
+
+export const updateCurrentUser = async (req, res) => {
+  const user = await User.findByIdAndUpdate(req.user._id, req.body, {
+    new: true,
+    runValidators: true,
+  });
+
+  res.status(200).json(user);
+};
+
 export const updateUserAvatar = async (req, res) => {
   const { file, user } = req;
   if (!file) {
