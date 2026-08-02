@@ -1,1 +1,1 @@
-First Node.js homework done by Tymofii Danilov.
+Node.js homework done by Tymofii Danilov.
